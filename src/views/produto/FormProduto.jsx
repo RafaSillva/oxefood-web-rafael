@@ -135,7 +135,7 @@ class FormProduto extends React.Component{
 								<Form.Group widths='equal' style={{marginTop: '4%'}}  className='form--empresa-salvar'>
 
 									
-								<Link to={'/list-produto'}>
+								<Link to={'/list-comprador'}>
 									<Button
 										type="button"
 										inverted

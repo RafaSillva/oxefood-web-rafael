@@ -3,11 +3,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
 
-class ListProduto extends React.Component{
+class ListComprador extends React.Component{
 
    state = {
 
-       listaProduto: []
+       listaComprador: []
       
    }
 
@@ -18,14 +18,24 @@ class ListProduto extends React.Component{
    }
    carregarLista = () => {
 
-    axios.get("http://localhost:8082/api/produto")
+    axios.get("http://localhost:8082/api/comprador")
     .then((response) => {
        
         this.setState({
-            listaProduto: response.data
+            listaComprador: response.data
         })
     })
 
+};
+
+formatarData = (dataParam) => {
+
+    let data = new Date(dataParam);
+    let dia = data.getDate() < 10 ? "0" + data.getDate() : data.getDate();
+    let mes = (data.getMonth() + 1) < 10 ? "0" + (data.getMonth() + 1) : (data.getMonth() + 1);
+    let dataFormatada = dia + "/" + mes + "/" + data.getFullYear();
+   
+    return dataFormatada
 };
 
 render(){
@@ -36,13 +46,13 @@ render(){
 
                 <Container textAlign='justified' >
 
-                    <h2> Produto </h2>
+                    <h2> Comprador </h2>
 
                     <Divider />
 
                     <div style={{marginTop: '4%'}}>
 
-                        <Link to={'/form-produto'}>
+                       <Link to={'/form-Comprador'}>          
                         <Button
                             inverted
                             circular
@@ -52,7 +62,7 @@ render(){
                             floated='right'
                         >
                             <Icon name='clipboard outline' />
-                           Novo
+                            Novo
                         </Button></Link>
                        
                         <br/><br/><br/>
@@ -61,27 +71,29 @@ render(){
 
                           <Table.Header>
                               <Table.Row>
-                                  <Table.HeaderCell>Título</Table.HeaderCell>
-                                  <Table.HeaderCell>Código do Produto</Table.HeaderCell>
-                                  <Table.HeaderCell>Descrição</Table.HeaderCell>
-                                  <Table.HeaderCell>Valor Unitário</Table.HeaderCell>
-                                  <Table.HeaderCell>tempoEntregaMinimo</Table.HeaderCell>
-                                  <Table.HeaderCell>tempoEntregaMaximo</Table.HeaderCell>
+                                  <Table.HeaderCell>Nome</Table.HeaderCell>
+                                  <Table.HeaderCell>enderecoComercial</Table.HeaderCell>
+                                  <Table.HeaderCell>enderecoResidencial</Table.HeaderCell>
+                                  <Table.HeaderCell>comissao</Table.HeaderCell>
+                                  <Table.HeaderCell>trabahoHomeOffice</Table.HeaderCell>
+                                  <Table.HeaderCell>qtdComprasMediasMes</Table.HeaderCell>
+                                  <Table.HeaderCell>contratadoEm</Table.HeaderCell>
                                   <Table.HeaderCell textAlign='center' width={2}>Ações</Table.HeaderCell>
                               </Table.Row>
                           </Table.Header>
                      
                           <Table.Body>
 
-                              { this.state.listaProduto.map(produto => (
+                              { this.state.listaComprador.map(comprador => (
 
                                   <Table.Row>
-                                    <Table.Cell>{produto.titulo}</Table.Cell>
-                                      <Table.Cell>{produto.codigo}</Table.Cell>
-                                      <Table.Cell>{produto.descricao}</Table.Cell>
-                                      <Table.Cell>{produto.valorUnitario}</Table.Cell>
-                                      <Table.Cell>{produto.tempoEntregaMinimo}</Table.Cell>
-                                      <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
+                                      <Table.Cell>{comprador.nome}</Table.Cell>
+                                      <Table.Cell>{comprador.enderecoComercial}</Table.Cell>
+                                      <Table.Cell>{comprador.enderecoResidencial}</Table.Cell>
+                                      <Table.Cell>{comprador.comissao}</Table.Cell>
+                                      <Table.Cell>{comprador.trabahoHomeOffice}</Table.Cell>
+                                      <Table.Cell>{comprador.qtdComprasMediasMes}</Table.Cell>
+                                      <Table.Cell>{this.formatarData(comprador.contratadoEm)}</Table.Cell>
                                       <Table.Cell textAlign='center'>
                                          
                                           <Button
@@ -89,14 +101,14 @@ render(){
                                               circular
                                               icon='edit'
                                               color='blue'
-                                              itle='Clique aqui para editar os dados deste produto' /> &nbsp;
+                                              itle='Clique aqui para editar os dados deste cliente' /> &nbsp;
 
                                             <Button
                                                    inverted
                                                    circular
                                                    icon='trash'
                                                    color='red'
-                                                   title='Clique aqui para remover este produto' />
+                                                   title='Clique aqui para remover este cliente' />
 
                                            </Table.Cell>
                                        </Table.Row>
@@ -109,7 +121,6 @@ render(){
                </div>
            </div>
        )
-    
    }
 }
-export default ListProduto;
+export default ListComprador;
